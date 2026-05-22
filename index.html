@@ -9,167 +9,947 @@
     <title>次元创作者·游戏化工坊</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --bg-gradient: linear-gradient(145deg, #f1f4fa 0%, #eef2f8 100%); --card-bg: rgba(255, 255, 255, 0.92); --text-main: #1e2b3c; --text-muted: #5b6f82; --accent: #7c3aed; --accent-glow: #a78bfa; --gold: #f59e0b; --success: #10b981; --danger: #ef4444; --border-light: rgba(0, 0, 0, 0.05); --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.05); --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.06); --radius-xl: 28px; --radius-lg: 20px; --radius-md: 16px; }
-        body { background: var(--bg-gradient); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif; color: var(--text-main); line-height: 1.5; padding: 0 0 40px 0; }
-        .glass-nav { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.6); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.02); }
-        .nav-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 32px; height: 70px; }
-        .logo-area { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.4rem; background: linear-gradient(135deg, #7c3aed, #f97316); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .nav-tabs { display: flex; gap: 8px; background: rgba(255,255,255,0.5); padding: 4px; border-radius: 60px; backdrop-filter: blur(4px); }
-        .tab-btn { background: transparent; border: none; padding: 8px 24px; border-radius: 40px; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; }
-        .tab-btn.active { background: white; color: var(--accent); box-shadow: var(--shadow-sm); }
-        .container { max-width: 1300px; margin: 32px auto; padding: 0 28px; }
-        .page { display: none; animation: fadeUp 0.4s ease; }
+
+        :root {
+            --bg: #07090f;
+            --surface: rgba(13, 18, 32, 0.97);
+            --surface-2: rgba(17, 24, 42, 0.92);
+            --surface-3: rgba(24, 33, 55, 0.85);
+            --border: rgba(255, 255, 255, 0.06);
+            --border-accent: rgba(124, 58, 237, 0.2);
+            --accent: #7c3aed;
+            --accent-2: #9b6dfa;
+            --accent-glow: rgba(124, 58, 237, 0.35);
+            --gold: #f59e0b;
+            --gold-light: #fbbf24;
+            --success: #10b981;
+            --success-light: #34d399;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --text: #dde3f0;
+            --text-muted: #7a8699;
+            --text-dim: #3d4a5c;
+            --radius-xl: 22px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse 80% 50% at 15% 5%, rgba(124, 58, 237, 0.13) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 85% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 60% at 50% 50%, rgba(245, 158, 11, 0.04) 0%, transparent 65%);
+            background-attachment: fixed;
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 72px;
+        }
+
+        /* ── NAV ── */
+        .glass-nav {
+            background: rgba(7, 9, 15, 0.88);
+            backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            height: 66px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #c4b5fd 0%, #f9a8d4 50%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 3px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            padding: 4px;
+            border-radius: 50px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.22s ease;
+            letter-spacing: 0.01em;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #7c3aed, #5b21b6);
+            color: white;
+            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.45);
+        }
+
+        /* ── CONTAINER ── */
+        .container {
+            max-width: 1300px;
+            margin: 32px auto;
+            padding: 0 28px;
+        }
+
+        .page { display: none; animation: fadeUp 0.35s ease; }
         .page.active { display: block; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px);} to { opacity: 1; transform: translateY(0);} }
-        .glass-card { background: var(--card-bg); backdrop-filter: blur(2px); border: 1px solid rgba(255,255,255,0.7); border-radius: var(--radius-xl); padding: 28px 32px; margin-bottom: 28px; box-shadow: var(--shadow-md); transition: all 0.2s; }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 28px; margin-top: 16px; }
-        .book-card { background: white; border-radius: var(--radius-lg); padding: 24px; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); border: 1px solid var(--border-light); position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-        .book-card:hover { transform: translateY(-6px); box-shadow: 0 20px 30px -12px rgba(124, 58, 237, 0.15); border-color: rgba(124, 58, 237, 0.2); }
-        .status-badge { position: absolute; top: 20px; right: 20px; padding: 4px 12px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; backdrop-filter: blur(2px); }
-        .status-存稿中 { background: #ffedd5; color: #b45309; }
-        .status-更新中 { background: #e0f2fe; color: #0369a1; }
-        .status-已完结 { background: #dcfce7; color: #15803d; }
-        .status-已废弃 { background: #f1f5f9; color: #475569; }
-        .book-title { font-size: 1.35rem; font-weight: 700; margin: 8px 0 6px 0; padding-right: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .book-category { display: inline-block; font-size: 0.7rem; background: #f1f5f9; padding: 4px 12px; border-radius: 40px; color: #334155; margin-bottom: 20px; }
-        .metrics-row { display: flex; justify-content: space-between; background: #f8fafc; padding: 12px 16px; border-radius: 20px; margin: 16px 0; gap: 12px; }
-        .metric { text-align: center; flex: 1; }
-        .metric-label { font-size: 0.7rem; color: var(--text-muted); }
-        .metric-value { font-weight: 800; font-size: 1rem; margin-top: 4px; color: var(--accent); }
-        .progress-block { margin: 12px 0; }
-        .progress-header { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 6px; color: #4b5563; }
-        .progress-bar-bg { height: 6px; background: #e2e8f0; border-radius: 12px; overflow: hidden; }
-        .progress-fill { height: 100%; border-radius: 12px; transition: width 0.4s ease; }
-        .fill-goal { background: var(--success); }
-        .fill-warning { background: var(--danger); }
-        .btn { border: none; padding: 10px 20px; border-radius: 40px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; background: #f1f5f9; color: #1e293b; }
-        .btn-primary { background: var(--accent); color: white; box-shadow: 0 2px 8px rgba(124,58,237,0.3); }
-        .btn-gold { background: linear-gradient(105deg, #fbbf24, #f59e0b); color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(245,158,11,0.3); }
-        .btn-outline { background: white; border: 1px solid #cbd5e1; }
-        .btn-sm { padding: 6px 12px; font-size: 0.75rem; }
-        .delete-icon { background: transparent; color: #94a3b8; margin-top: 12px; font-size: 0.7rem; width: 100%; justify-content: center; }
-        .delete-icon:hover { color: var(--danger); background: #fff1f0; }
-        .table-wrapper { overflow-x: auto; border-radius: 24px; background: #ffffffcc; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-        th, td { padding: 14px 12px; border-bottom: 1px solid #eef2ff; }
-        th { background: #f9fafb; color: #475569; font-weight: 600; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .stat-card { background: #ffffffcc; backdrop-filter: blur(4px); border-radius: 28px; padding: 24px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.8); }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000; }
-        .modal.active { display: flex; }
-        .modal-card { background: white; border-radius: 40px; max-width: 500px; width: 90%; padding: 28px 32px; box-shadow: 0 30px 50px rgba(0,0,0,0.2); position: relative; animation: scaleIn 0.2s ease; }
-        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .close-modal { position: absolute; top: 20px; right: 24px; font-size: 26px; cursor: pointer; color: #9ca3af; }
-        .gacha-stage { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 36px; padding: 20px; margin: 16px 0; }
-        .card-flipper { width: 240px; height: 320px; margin: 0 auto; perspective: 1200px; cursor: pointer; }
-        .flipper-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1); transform-style: preserve-3d; border-radius: 24px; }
-        .flipped { transform: rotateY(180deg); }
-        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
-        .back { background: linear-gradient(135deg, #facc15, #f59e0b); color: #1e293b; transform: rotateY(0deg); font-weight: bold; }
-        .front { background: white; transform: rotateY(180deg); border: 2px solid #facc15; }
-        .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1f2937; color: white; padding: 12px 24px; border-radius: 60px; font-weight: 500; z-index: 1100; box-shadow: 0 10px 20px rgba(0,0,0,0.2); backdrop-filter: blur(8px); animation: fadeOut 3s forwards; }
-        @keyframes fadeOut { 0% { opacity: 0; transform: translateX(-50%) translateY(20px);} 15% { opacity: 1; transform: translateX(-50%) translateY(0);} 85% { opacity: 1; transform: translateX(-50%) translateY(0);} 100% { opacity: 0; transform: translateX(-50%) translateY(20px); visibility: hidden;} }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── GLASS CARD ── */
+        .glass-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 28px 32px;
+            margin-bottom: 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 5%, rgba(139, 92, 246, 0.45) 50%, transparent 95%);
+            pointer-events: none;
+        }
+
+        /* ── SECTION HEADING ── */
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .section-heading h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+
+        .heading-pip {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #9b6dfa);
+            box-shadow: 0 0 8px rgba(124, 58, 237, 0.7);
+            flex-shrink: 0;
+        }
+
+        /* ── TOOLBAR ── */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .toolbar-left  { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .toolbar-right { display: flex; gap: 10px; flex-wrap: wrap; }
+
+        /* ── FORM CONTROLS ── */
+        .form-control {
+            width: 100%;
+            padding: 11px 17px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            font-size: 0.875rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.18s, box-shadow 0.18s;
+            -webkit-appearance: none;
+        }
+
+        .form-control:focus {
+            border-color: rgba(124, 58, 237, 0.55);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+        }
+
+        .form-control option { background: #111827; color: var(--text); }
+
+        label {
+            font-weight: 600;
+            font-size: 0.71rem;
+            color: var(--text-muted);
+            margin-bottom: 7px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
         .form-group { margin-bottom: 16px; }
-        .form-control { width: 100%; padding: 12px 16px; border-radius: 24px; border: 1px solid #e2e8f0; font-size: 0.9rem; }
-        label { font-weight: 600; font-size: 0.8rem; color: #334155; margin-bottom: 6px; display: block; }
+
+        /* ── BUTTONS ── */
+        .btn {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.83rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: inherit;
+            white-space: nowrap;
+            letter-spacing: 0.01em;
+        }
+
+        .btn:hover  { transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.38);
+        }
+        .btn-primary:hover { box-shadow: 0 6px 22px rgba(124, 58, 237, 0.55); }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+        }
+        .btn-gold:hover { box-shadow: 0 6px 22px rgba(245, 158, 11, 0.5); }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            color: var(--text-muted);
+        }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.09); color: var(--text); }
+
+        .btn-sm { padding: 6px 14px; font-size: 0.74rem; }
+
+        .delete-icon {
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 0.71rem;
+            width: 100%;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        .delete-icon:hover {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.08);
+            transform: none;
+        }
+
+        /* ── CARD GRID ── */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 22px;
+            margin-top: 4px;
+        }
+
+        /* ── BOOK CARD ── */
+        .book-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 26px;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .book-card[data-status="更新中"]::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .book-card[data-status="存稿中"]::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .book-card[data-status="已完结"]::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .book-card[data-status="已废弃"]::before { background: linear-gradient(90deg, #334155, #475569); }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(124, 58, 237, 0.28);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(124, 58, 237, 0.1);
+        }
+
+        .book-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            gap: 10px;
+        }
+
+        .status-badge {
+            padding: 4px 11px;
+            border-radius: 30px;
+            font-size: 0.67rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .status-存稿中 { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.22); }
+        .status-更新中 { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.22); }
+        .status-已完结 { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.22); }
+        .status-已废弃 { background: rgba(71,85,105,0.15); color: #94a3b8; border: 1px solid rgba(71,85,105,0.2); }
+
+        .book-title {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .book-category {
+            display: inline-block;
+            font-size: 0.67rem;
+            font-weight: 600;
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--accent-2);
+            border: 1px solid rgba(124, 58, 237, 0.18);
+            padding: 3px 12px;
+            border-radius: 40px;
+            margin: 10px 0 16px;
+            letter-spacing: 0.03em;
+        }
+
+        .metrics-row {
+            display: flex;
+            gap: 1px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 14px 0;
+        }
+
+        .metric {
+            flex: 1;
+            padding: 11px 8px;
+            background: rgba(255, 255, 255, 0.02);
+            text-align: center;
+        }
+
+        .metric + .metric { border-left: 1px solid var(--border); }
+
+        .metric-label {
+            font-size: 0.63rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            font-weight: 800;
+            font-size: 1.02rem;
+            color: var(--accent-2);
+            letter-spacing: -0.02em;
+        }
+
+        .progress-block { margin: 9px 0; }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.69rem;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-bg {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .fill-goal    { background: linear-gradient(90deg, #10b981, #34d399); }
+        .fill-warning { background: linear-gradient(90deg, #7c3aed, #9b6dfa); }
+
+        /* ── TABLE ── */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+
+        th {
+            background: rgba(255, 255, 255, 0.025);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.70rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 13px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: var(--text);
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255, 255, 255, 0.018); }
+
+        /* ── STATS ── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 26px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover { border-color: rgba(124, 58, 237, 0.3); }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(124,58,237,0.35), transparent);
+        }
+
+        .stat-label {
+            font-size: 0.70rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            background: linear-gradient(135deg, #dde3f0 0%, #c4b5fd 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* ── MODAL ── */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(14px) saturate(120%);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-card {
+            background: #0e1422;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            max-width: 500px;
+            width: 90%;
+            padding: 32px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(124, 58, 237, 0.1);
+            position: relative;
+            animation: scaleIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.93); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px; right: 22px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.18s;
+        }
+
+        .close-modal:hover { background: rgba(239, 68, 68, 0.14); color: var(--danger); border-color: rgba(239,68,68,0.3); }
+
+        /* ── GACHA ── */
+        .gacha-stage {
+            background: linear-gradient(145deg, #090d18, #070b14);
+            border: 1px solid rgba(124, 58, 237, 0.18);
+            border-radius: 22px;
+            padding: 22px;
+            margin: 18px 0;
+            text-align: center;
+        }
+
+        .card-flipper {
+            width: 220px;
+            height: 300px;
+            margin: 0 auto;
+            perspective: 1200px;
+            cursor: pointer;
+        }
+
+        .flipper-inner {
+            position: relative;
+            width: 100%; height: 100%;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+        }
+
+        .flipped { transform: rotateY(180deg); }
+
+        .front, .back {
+            position: absolute;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .back {
+            background: linear-gradient(145deg, #6d28d9, #4f46e5);
+            color: white;
+            transform: rotateY(0deg);
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 40px rgba(109, 40, 217, 0.4);
+        }
+
+        .front {
+            background: linear-gradient(145deg, #111827, #0f172a);
+            border: 2px solid #f59e0b;
+            color: var(--text);
+            transform: rotateY(180deg);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.22);
+        }
+
+        /* ── TOAST ── */
+        .toast-msg {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(14, 20, 34, 0.97);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            color: var(--text);
+            padding: 11px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            z-index: 1100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(124,58,237,0.12);
+            animation: toastAnim 3.2s forwards;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        @keyframes toastAnim {
+            0%   { opacity: 0; transform: translateX(-50%) translateY(18px); }
+            12%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+            80%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(8px); visibility: hidden; }
+        }
+
+        /* ── UTILITIES ── */
+        .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 88px 24px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 3.2rem;
+            margin-bottom: 16px;
+            opacity: 0.35;
+        }
+
+        .empty-text {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            max-width: 280px;
+            line-height: 1.7;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.09); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-container { padding: 0 16px; height: 58px; }
+            .logo-text { display: none; }
+            .tab-btn { padding: 7px 14px; font-size: 0.8rem; }
+            .container { margin: 20px auto; padding: 0 14px; }
+            .glass-card { padding: 20px 18px; }
+            .book-card { padding: 22px; }
+            .card-grid { grid-template-columns: 1fr; gap: 16px; }
+            .modal-card { padding: 24px 20px; }
+        }
     </style>
 </head>
 <body>
 
 <div class="glass-nav">
     <div class="nav-container">
-        <div class="logo-area">📖 次元创作者·游戏化工坊</div>
+        <div class="logo-area">
+            <div class="logo-icon">📖</div>
+            <div class="logo-text">次元创作者·工坊</div>
+        </div>
         <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchPage('page1')">📚 卡片书架</button>
-            <button class="tab-btn" onclick="switchPage('page2')">✍️ 写作记账</button>
-            <button class="tab-btn" onclick="switchPage('page3')">📊 时光复盘</button>
+            <button class="tab-btn active" onclick="switchPage('page1')">📚 书架</button>
+            <button class="tab-btn" onclick="switchPage('page2')">✍️ 记账</button>
+            <button class="tab-btn" onclick="switchPage('page3')">📊 复盘</button>
         </div>
     </div>
 </div>
 
 <div class="container">
+
+    <!-- PAGE 1: BOOKSHELF -->
     <div id="page1" class="page active">
         <div class="glass-card">
-            <div class="flex-between">
-                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <select id="filterCategory" class="form-control" style="width: auto;" onchange="renderBookCards()"></select>
-                    <select id="bookSortKey" class="form-control" style="width: auto;" onchange="renderBookCards()">
-                        <option value="words">📈 按字数排序</option>
-                        <option value="income">💰 按稿费排序</option>
-                        <option value="hourly">⏱️ 按时薪排序</option>
-                        <option value="perThousand">📑 按千字价排序</option>
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <select id="filterCategory" class="form-control" style="width: auto; min-width: 140px;" onchange="renderBookCards()"></select>
+                    <select id="bookSortKey" class="form-control" style="width: auto; min-width: 160px;" onchange="renderBookCards()">
+                        <option value="words">按字数排序</option>
+                        <option value="income">按稿费排序</option>
+                        <option value="hourly">按时薪排序</option>
+                        <option value="perThousand">按千字价排序</option>
                     </select>
                 </div>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-gold" onclick="triggerGachaDraw()">🎴 灵感抽卡·今日运势</button>
-                    <button class="btn btn-outline" onclick="openModal('categoryModal')">🏷️ 管理标签</button>
-                    <button class="btn btn-primary" onclick="openModal('addBookModal')">➕ 创建新卡片</button>
+                <div class="toolbar-right">
+                    <button class="btn btn-gold" onclick="triggerGachaDraw()">🎴 今日灵感</button>
+                    <button class="btn btn-outline" onclick="openModal('categoryModal')">🏷️ 标签</button>
+                    <button class="btn btn-primary" onclick="openModal('addBookModal')">＋ 新建卡片</button>
                 </div>
             </div>
         </div>
         <div id="bookCardContainer" class="card-grid"></div>
     </div>
 
+    <!-- PAGE 2: RECORDS -->
     <div id="page2" class="page">
         <div class="glass-card">
-            <h3 style="margin-bottom: 20px;">📝 记录写作能量日志</h3>
+            <div class="section-heading">
+                <div class="heading-pip"></div>
+                <h3>记录写作能量</h3>
+            </div>
             <form id="recordForm">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px;">
-                    <div class="form-group"><label>选择卡片书</label><select id="recordBookSelect" class="form-control" required></select></div>
-                    <div class="form-group"><label>日期</label><input type="date" id="recordDate" class="form-control" required></div>
-                    <div class="form-group"><label>写作时长(小时)</label><input type="number" id="recordHours" step="0.1" class="form-control" placeholder="例: 3.5"></div>
-                    <div class="form-group"><label>码字字数</label><input type="number" id="recordWords" class="form-control" placeholder="例: 4200"></div>
-                    <div class="form-group"><label>稿费(元)</label><input type="number" id="recordIncome" class="form-control" placeholder="例: 360"></div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>卡片书</label>
+                        <select id="recordBookSelect" class="form-control" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>日期</label>
+                        <input type="date" id="recordDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>写作时长（小时）</label>
+                        <input type="number" id="recordHours" step="0.1" class="form-control" placeholder="3.5">
+                    </div>
+                    <div class="form-group">
+                        <label>码字字数</label>
+                        <input type="number" id="recordWords" class="form-control" placeholder="4200">
+                    </div>
+                    <div class="form-group">
+                        <label>稿费（元）</label>
+                        <input type="number" id="recordIncome" class="form-control" placeholder="360">
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 8px;">💾 存入日志 & 触发能量</button>
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:13px; margin-top:4px;">💾 保存记录</button>
             </form>
         </div>
+
         <div class="glass-card">
-            <h3>🕯️ 创作流水账本</h3>
+            <div class="section-heading">
+                <div class="heading-pip"></div>
+                <h3>创作流水账</h3>
+            </div>
             <div class="table-wrapper">
                 <table>
-                    <thead><tr><th>日期</th><th>书籍</th><th>字数</th><th>时长</th><th>稿费</th><th>时薪</th><th>千字价</th><th></th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>日期</th><th>书籍</th><th>字数</th>
+                            <th>时长</th><th>稿费</th><th>时薪</th>
+                            <th>千字价</th><th></th>
+                        </tr>
+                    </thead>
                     <tbody id="detailLogTable"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- PAGE 3: STATS -->
     <div id="page3" class="page">
         <div class="glass-card">
-            <div class="flex-between"><h3>📅 周期复盘能量圈</h3><select id="timeDimension" class="form-control" style="width:150px;" onchange="renderStatsPage()"><option value="today">今日</option><option value="week">本周</option><option value="month">本月</option><option value="year">今年</option><option value="all">总览</option></select></div>
-            <div class="stats-grid" style="margin-top: 24px;">
-                <div class="stat-card"><div>总字数</div><div class="value" id="summaryWords" style="font-size: 28px; font-weight:800;">0</div></div>
-                <div class="stat-card"><div>总稿费</div><div class="value" id="summaryIncome" style="font-size: 28px; font-weight:800; color:var(--success);">0</div></div>
-                <div class="stat-card"><div>平均时薪</div><div class="value" id="summaryHourly" style="font-size: 28px;">0</div></div>
-                <div class="stat-card"><div>千字均价</div><div class="value" id="summaryPerThousand" style="font-size: 28px;">0</div></div>
+            <div class="flex-between" style="margin-bottom:24px;">
+                <div class="section-heading" style="margin-bottom:0;">
+                    <div class="heading-pip"></div>
+                    <h3>周期复盘</h3>
+                </div>
+                <select id="timeDimension" class="form-control" style="width:130px;" onchange="renderStatsPage()">
+                    <option value="today">今日</option>
+                    <option value="week">本周</option>
+                    <option value="month">本月</option>
+                    <option value="year">今年</option>
+                    <option value="all">总览</option>
+                </select>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">总字数</div>
+                    <div class="stat-value" id="summaryWords">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">总稿费</div>
+                    <div class="stat-value" id="summaryIncome">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">平均时薪</div>
+                    <div class="stat-value" id="summaryHourly">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">千字均价</div>
+                    <div class="stat-value" id="summaryPerThousand">0</div>
+                </div>
             </div>
         </div>
-        <div class="glass-card"><h3>🔍 自定义日期检视</h3><div style="display:flex; gap:16px; flex-wrap:wrap;"><div class="form-group"><label>起始</label><input type="date" id="customStart" class="form-control"></div><div class="form-group"><label>结束</label><input type="date" id="customEnd" class="form-control"></div><button class="btn btn-primary" onclick="calculateCustomRange()">测算区间</button></div>
-        <div class="stats-grid" style="margin-top:24px;"><div class="stat-card">区间字数<div id="customWords" class="value">0</div></div><div class="stat-card">区间稿费<div id="customIncome" class="value">0</div></div><div class="stat-card">区间时薪<div id="customHourly" class="value">0</div></div></div>
+
+        <div class="glass-card">
+            <div class="section-heading">
+                <div class="heading-pip"></div>
+                <h3>自定义日期区间</h3>
+            </div>
+            <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end;">
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>起始日期</label>
+                    <input type="date" id="customStart" class="form-control" style="min-width:160px;">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>结束日期</label>
+                    <input type="date" id="customEnd" class="form-control" style="min-width:160px;">
+                </div>
+                <button class="btn btn-primary" onclick="calculateCustomRange()">测算区间</button>
+            </div>
+            <div class="stats-grid" style="margin-top:20px;">
+                <div class="stat-card">
+                    <div class="stat-label">区间字数</div>
+                    <div class="stat-value" id="customWords">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">区间稿费</div>
+                    <div class="stat-value" id="customIncome">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">区间时薪</div>
+                    <div class="stat-value" id="customHourly">—</div>
+                </div>
+            </div>
         </div>
+    </div>
+
+</div>
+
+<!-- ── MODALS ── -->
+
+<div id="addBookModal" class="modal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeModal('addBookModal')">×</button>
+        <div class="modal-title">✨ 创建新卡片书</div>
+        <div class="form-group"><label>书名</label><input id="newBookName" class="form-control" placeholder="《星海旅人》"></div>
+        <div class="form-group"><label>品类</label><select id="newBookCategory" class="form-control"></select></div>
+        <div class="form-group">
+            <label>状态</label>
+            <select id="newBookStatus" class="form-control">
+                <option>存稿中</option><option>更新中</option><option>已完结</option><option>已废弃</option>
+            </select>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:22px;">
+            <div class="form-group" style="margin-bottom:0;">
+                <label>目标字数</label>
+                <input id="targetWords" type="number" class="form-control" value="0">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+                <label>目标时长(h)</label>
+                <input id="targetHours" type="number" class="form-control" value="0">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+                <label>目标稿费</label>
+                <input id="targetIncome" type="number" class="form-control" value="0">
+            </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:13px;" onclick="submitNewBook()">📖 上架创作</button>
     </div>
 </div>
 
-<!-- Modals -->
-<div id="addBookModal" class="modal"><div class="modal-card"><span class="close-modal" onclick="closeModal('addBookModal')">&times;</span><h3>✨ 缔造新卡片书</h3><div><div class="form-group"><label>书名</label><input id="newBookName" class="form-control" placeholder="《星海旅人》"></div><div class="form-group"><label>品类</label><select id="newBookCategory" class="form-control"></select></div><div class="form-group"><label>状态</label><select id="newBookStatus" class="form-control"><option>存稿中</option><option>更新中</option><option>已完结</option><option>已废弃</option></select></div><div class="form-group"><label>🎯 目标字数(0为无限)</label><input id="targetWords" type="number" class="form-control" value="0"></div><div class="form-group"><label>⏱️ 目标时长(h)</label><input id="targetHours" type="number" class="form-control" value="0"></div><div class="form-group"><label>💰 目标稿费</label><input id="targetIncome" type="number" class="form-control" value="0"></div><button class="btn btn-primary" style="width:100%" onclick="submitNewBook()">📖 灌注灵气·上架</button></div></div></div>
+<div id="categoryModal" class="modal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeModal('categoryModal')">×</button>
+        <div class="modal-title">🏷️ 管理标签</div>
+        <div style="display:flex; gap:8px; margin-bottom:20px;">
+            <input id="customCatName" class="form-control" placeholder="新标签名称">
+            <button class="btn btn-primary" onclick="addCustomCategory()">添加</button>
+        </div>
+        <div id="categoryTagList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+    </div>
+</div>
 
-<div id="categoryModal" class="modal"><div class="modal-card"><span class="close-modal" onclick="closeModal('categoryModal')">&times;</span><h3>🏷️ 标签图鉴</h3><div style="display:flex; gap:8px;"><input id="customCatName" class="form-control" placeholder="新标签"><button class="btn btn-primary" onclick="addCustomCategory()">+ 添加</button></div><div id="categoryTagList" style="margin-top: 20px; display: flex; flex-wrap:wrap; gap: 8px;"></div></div></div>
-
-<div id="gachaModal" class="modal"><div class="modal-card" style="max-width: 460px;"><span class="close-modal" onclick="closeModal('gachaModal')">&times;</span><h2 style="text-align:center;">🎲 灵感御守抽卡</h2><div class="gacha-stage"><div class="card-flipper" onclick="flipGachaCard()"><div id="flipperInner" class="flipper-inner"><div class="back">✨ 点击揭晓✨<br>今日天命卡书</div><div id="gachaFront" class="front"></div></div></div></div><button id="gachaBtn" class="btn btn-gold" style="width:100%;" onclick="executeGachaRoll()">🌟 抽一张灵光卡</button></div></div>
+<div id="gachaModal" class="modal">
+    <div class="modal-card" style="max-width:440px;">
+        <button class="close-modal" onclick="closeModal('gachaModal')">×</button>
+        <div class="modal-title" style="text-align:center;">🎲 灵感御守抽卡</div>
+        <div class="gacha-stage">
+            <div class="card-flipper" onclick="flipGachaCard()">
+                <div id="flipperInner" class="flipper-inner">
+                    <div class="back">
+                        ✨ 点击揭晓
+                        <span style="font-size:0.75rem; opacity:0.65; margin-top:10px; display:block;">今日天命卡书</span>
+                    </div>
+                    <div id="gachaFront" class="front"></div>
+                </div>
+            </div>
+        </div>
+        <button id="gachaBtn" class="btn btn-gold" style="width:100%; justify-content:center; padding:13px;" onclick="executeGachaRoll()">🌟 抽取灵光</button>
+    </div>
+</div>
 
 <script>
     let books = JSON.parse(localStorage.getItem('gacha_books')) || [];
     let records = JSON.parse(localStorage.getItem('gacha_records')) || [];
-    let categories = JSON.parse(localStorage.getItem('gacha_categories')) || ['长篇', '短篇', '轻小说', '剧本'];
+    let categories = JSON.parse(localStorage.getItem('gacha_categories')) || ['长篇','短篇','轻小说','剧本'];
 
-    function showMessage(text, emoji = "✨") {
+    function showMessage(text, emoji="✨") {
         const div = document.createElement('div');
         div.className = 'toast-msg';
-        div.innerHTML = `${emoji} ${text}`;
+        div.textContent = `${emoji} ${text}`;
         document.body.appendChild(div);
-        setTimeout(() => div.remove(), 3000);
+        setTimeout(() => div.remove(), 3400);
     }
 
     function saveAll() {
@@ -178,213 +958,283 @@
         localStorage.setItem('gacha_categories', JSON.stringify(categories));
     }
 
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function openModal(id)  { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
     function switchPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
-        if(pageId === 'page1') document.querySelector('.tab-btn:first-child').classList.add('active');
-        if(pageId === 'page2') document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
-        if(pageId === 'page3') document.querySelector('.tab-btn:last-child').classList.add('active');
+        const idx = { page1: 0, page2: 1, page3: 2 }[pageId];
+        document.querySelectorAll('.tab-btn')[idx]?.classList.add('active');
         initApp();
     }
 
     function addCustomCategory() {
         let name = document.getElementById('customCatName').value.trim();
-        if(!name) return;
-        if(categories.includes(name)){ showMessage("标签已存在","⚠️"); return;}
+        if (!name) return;
+        if (categories.includes(name)) { showMessage("标签已存在", "⚠️"); return; }
         categories.push(name);
         saveAll();
         document.getElementById('customCatName').value = '';
         initApp();
-        showMessage(`「${name}」已加入分类宇宙`,"🏷️");
+        showMessage(`「${name}」已加入分类`, "🏷️");
     }
 
     function removeCategory(cat) {
-        if(confirm(`移除分类「${cat}」？关联书籍不会删除`)){
-            categories = categories.filter(c=>c!==cat);
-            saveAll();
-            initApp();
-            showMessage(`分类「${cat}」消散了`,"🍂");
+        if (confirm(`移除分类「${cat}」？关联书籍不会删除`)) {
+            categories = categories.filter(c => c !== cat);
+            saveAll(); initApp();
+            showMessage(`分类「${cat}」已移除`, "🍂");
         }
     }
 
     function syncUI() {
         let filter = document.getElementById('filterCategory');
-        if(filter){
+        if (filter) {
             let val = filter.value;
-            filter.innerHTML = '<option value="all">📌 全部品类</option>'+categories.map(c=>`<option value="${c}">${c}</option>`).join('');
-            if(val) filter.value=val;
+            filter.innerHTML = '<option value="all">全部品类</option>' +
+                categories.map(c => `<option value="${c}">${c}</option>`).join('');
+            if (val) filter.value = val;
         }
         let catSelect = document.getElementById('newBookCategory');
-        if(catSelect) catSelect.innerHTML = categories.map(c=>`<option value="${c}">${c}</option>`).join('');
+        if (catSelect) catSelect.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+
         let tagDiv = document.getElementById('categoryTagList');
-        if(tagDiv) tagDiv.innerHTML = categories.map(c=>`<span style="background:#f1f5f9;padding:6px 14px;border-radius:40px;display:inline-flex;gap:8px;">${c}<button style="background:none;border:none;cursor:pointer;" onclick="removeCategory('${c}')">✖️</button></span>`).join('');
+        if (tagDiv) tagDiv.innerHTML = categories.map(c =>
+            `<span style="background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.18);padding:5px 14px;border-radius:40px;display:inline-flex;gap:8px;font-size:0.82rem;color:#c4b5fd;">
+                ${c}
+                <button style="background:none;border:none;cursor:pointer;color:#7a8699;font-size:0.9rem;" onclick="removeCategory('${c}')">✕</button>
+            </span>`
+        ).join('');
     }
 
     function submitNewBook() {
         let name = document.getElementById('newBookName').value.trim();
         let category = document.getElementById('newBookCategory').value;
         let status = document.getElementById('newBookStatus').value;
-        if(!name){ showMessage("书名不能为空","📕"); return; }
-        if(books.some(b=>b.name===name)){ showMessage("这本书已存在","⚠️"); return; }
-        let tW = parseInt(document.getElementById('targetWords').value)||0;
-        let tH = parseFloat(document.getElementById('targetHours').value)||0;
-        let tI = parseFloat(document.getElementById('targetIncome').value)||0;
+        if (!name) { showMessage("书名不能为空", "📕"); return; }
+        if (books.some(b => b.name === name)) { showMessage("这本书已存在", "⚠️"); return; }
+        let tW = parseInt(document.getElementById('targetWords').value) || 0;
+        let tH = parseFloat(document.getElementById('targetHours').value) || 0;
+        let tI = parseFloat(document.getElementById('targetIncome').value) || 0;
         books.push({ id: Date.now(), name, category, status, targetWords: tW, targetHours: tH, targetIncome: tI });
         saveAll();
         closeModal('addBookModal');
-        document.getElementById('newBookName').value='';
+        document.getElementById('newBookName').value = '';
         initApp();
-        showMessage(`🎉 新作《${name}》降临创作星域！`, "🌟");
+        showMessage(`新作《${name}》已上架！`, "🌟");
     }
 
     function deleteBook(bookName) {
-        if(confirm(`永久销毁《${bookName}》及其所有日志？`)){
-            books = books.filter(b=>b.name !== bookName);
-            records = records.filter(r=>r.bookName !== bookName);
-            saveAll();
-            initApp();
-            showMessage(`《${bookName}》从书架上消失了...`, "💔");
+        if (confirm(`永久删除《${bookName}》及其所有记录？`)) {
+            books = books.filter(b => b.name !== bookName);
+            records = records.filter(r => r.bookName !== bookName);
+            saveAll(); initApp();
+            showMessage(`《${bookName}》已从书架移除`, "💔");
         }
     }
 
-    function deleteRecord(id){
-        if(confirm("删除这笔记录？")){
-            records = records.filter(r=>r.id !== id);
-            saveAll();
-            initApp();
-            showMessage("时光笔迹已擦除", "🕯️");
+    function deleteRecord(id) {
+        if (confirm("删除这笔记录？")) {
+            records = records.filter(r => r.id !== id);
+            saveAll(); initApp();
+            showMessage("记录已删除", "🗑️");
         }
     }
 
-    function renderBookCards(){
+    function renderBookCards() {
         let sortKey = document.getElementById('bookSortKey').value;
         let catFilter = document.getElementById('filterCategory').value;
-        let filtered = books.filter(b=> catFilter === 'all' ? true : b.category === catFilter);
-        let enriched = filtered.map(b=>{
-            let myRec = records.filter(r=>r.bookName===b.name);
-            let w=0, h=0, inc=0;
-            myRec.forEach(r=>{ w+=r.words; h+=r.hours; inc+=r.income; });
-            return {...b, curWords: w, curHours: h, curIncome: inc, hourly: h>0? inc/h:0, perThousand: w>0? (inc/w*1000):0 };
+        let filtered = books.filter(b => catFilter === 'all' ? true : b.category === catFilter);
+        let enriched = filtered.map(b => {
+            let myRec = records.filter(r => r.bookName === b.name);
+            let w = 0, h = 0, inc = 0;
+            myRec.forEach(r => { w += r.words; h += r.hours; inc += r.income; });
+            return { ...b, curWords: w, curHours: h, curIncome: inc,
+                hourly: h > 0 ? inc / h : 0, perThousand: w > 0 ? (inc / w * 1000) : 0 };
         });
-        if(sortKey==='words') enriched.sort((a,b)=>b.curWords-a.curWords);
-        if(sortKey==='income') enriched.sort((a,b)=>b.curIncome-a.curIncome);
-        if(sortKey==='hourly') enriched.sort((a,b)=>b.hourly-a.hourly);
-        if(sortKey==='perThousand') enriched.sort((a,b)=>b.perThousand-a.perThousand);
+        if (sortKey === 'words')       enriched.sort((a,b) => b.curWords - a.curWords);
+        if (sortKey === 'income')      enriched.sort((a,b) => b.curIncome - a.curIncome);
+        if (sortKey === 'hourly')      enriched.sort((a,b) => b.hourly - a.hourly);
+        if (sortKey === 'perThousand') enriched.sort((a,b) => b.perThousand - a.perThousand);
+
         let container = document.getElementById('bookCardContainer');
-        if(enriched.length===0){ container.innerHTML=`<div style="grid-column:1/-1; text-align:center;padding:60px;">✨ 书架上空空如也，快创建第一本卡片书吧 ✨</div>`; return; }
-        container.innerHTML = enriched.map(b=>{
-            let pW = b.targetWords>0 ? Math.min(100, (b.curWords/b.targetWords)*100) : 100;
-            let pH = b.targetHours>0 ? Math.min(100, (b.curHours/b.targetHours)*100) : 100;
-            let pI = b.targetIncome>0 ? Math.min(100, (b.curIncome/b.targetIncome)*100) : 100;
-            let fillW = (b.targetWords>0 && pW<100) ? 'fill-warning' : 'fill-goal';
-            let fillH = (b.targetHours>0 && pH<100) ? 'fill-warning' : 'fill-goal';
-            let fillI = (b.targetIncome>0 && pI<100) ? 'fill-warning' : 'fill-goal';
-            return `<div class="book-card"><span class="status-badge status-${b.status}">${b.status}</span><div class="book-title">${b.name}</div><span class="book-category">${b.category}</span>
-            <div class="metrics-row"><div class="metric"><div class="metric-label">时薪</div><div class="metric-value">¥${b.hourly.toFixed(2)}</div></div><div class="metric"><div class="metric-label">千字价</div><div class="metric-value">¥${b.perThousand.toFixed(2)}</div></div></div>
-            <div class="progress-block"><div class="progress-header"><span>📖 累计字数</span><span>${b.curWords.toLocaleString()}${b.targetWords>0 ? '/'+b.targetWords.toLocaleString():''}</span></div><div class="progress-bar-bg"><div class="progress-fill ${fillW}" style="width:${pW}%"></div></div></div>
-            <div class="progress-block"><div class="progress-header"><span>⏳ 累计时长</span><span>${b.curHours}h${b.targetHours>0?'/'+b.targetHours+'h':''}</span></div><div class="progress-bar-bg"><div class="progress-fill ${fillH}" style="width:${pH}%"></div></div></div>
-            <div class="progress-block"><div class="progress-header"><span>💰 稿费进度</span><span>¥${b.curIncome.toLocaleString()}${b.targetIncome>0?'/¥'+b.targetIncome.toLocaleString():''}</span></div><div class="progress-bar-bg"><div class="progress-fill ${fillI}" style="width:${pI}%"></div></div></div>
-            <button class="btn delete-icon" onclick="deleteBook('${b.name}')">🗑️ 封印销毁</button></div>`;
+        if (enriched.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="empty-icon">📚</div><div class="empty-text">书架上空空如也<br>快去创建第一本卡片书吧</div></div>`;
+            return;
+        }
+
+        container.innerHTML = enriched.map(b => {
+            let pW = b.targetWords  > 0 ? Math.min(100, (b.curWords  / b.targetWords)  * 100) : 100;
+            let pH = b.targetHours  > 0 ? Math.min(100, (b.curHours  / b.targetHours)  * 100) : 100;
+            let pI = b.targetIncome > 0 ? Math.min(100, (b.curIncome / b.targetIncome) * 100) : 100;
+            let fillW = (b.targetWords  > 0 && pW < 100) ? 'fill-warning' : 'fill-goal';
+            let fillH = (b.targetHours  > 0 && pH < 100) ? 'fill-warning' : 'fill-goal';
+            let fillI = (b.targetIncome > 0 && pI < 100) ? 'fill-warning' : 'fill-goal';
+            return `<div class="book-card" data-status="${b.status}">
+                <div class="book-card-header">
+                    <div class="book-title">${b.name}</div>
+                    <span class="status-badge status-${b.status}">${b.status}</span>
+                </div>
+                <span class="book-category">${b.category}</span>
+                <div class="metrics-row">
+                    <div class="metric">
+                        <div class="metric-label">时薪</div>
+                        <div class="metric-value">¥${b.hourly.toFixed(2)}</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">千字价</div>
+                        <div class="metric-value">¥${b.perThousand.toFixed(2)}</div>
+                    </div>
+                </div>
+                <div class="progress-block">
+                    <div class="progress-header">
+                        <span>累计字数</span>
+                        <span>${b.curWords.toLocaleString()}${b.targetWords > 0 ? ' / ' + b.targetWords.toLocaleString() : ''}</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-fill ${fillW}" style="width:${pW}%"></div></div>
+                </div>
+                <div class="progress-block">
+                    <div class="progress-header">
+                        <span>累计时长</span>
+                        <span>${b.curHours}h${b.targetHours > 0 ? ' / ' + b.targetHours + 'h' : ''}</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-fill ${fillH}" style="width:${pH}%"></div></div>
+                </div>
+                <div class="progress-block">
+                    <div class="progress-header">
+                        <span>稿费进度</span>
+                        <span>¥${b.curIncome.toLocaleString()}${b.targetIncome > 0 ? ' / ¥' + b.targetIncome.toLocaleString() : ''}</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-fill ${fillI}" style="width:${pI}%"></div></div>
+                </div>
+                <button class="btn delete-icon" onclick="deleteBook('${b.name}')">🗑️ 删除</button>
+            </div>`;
         }).join('');
     }
 
     function updateBookSelect() {
         let select = document.getElementById('recordBookSelect');
-        if(books.length===0) select.innerHTML='<option>--暂无书籍，先去书架创建--</option>';
-        else select.innerHTML = books.map(b=>`<option value="${b.name}">${b.name}</option>`).join('');
+        if (books.length === 0) select.innerHTML = '<option>—— 暂无书籍，先去书架创建 ——</option>';
+        else select.innerHTML = books.map(b => `<option value="${b.name}">${b.name}</option>`).join('');
     }
 
-    document.getElementById('recordForm').addEventListener('submit',function(e){
+    document.getElementById('recordForm').addEventListener('submit', function(e) {
         e.preventDefault();
         let bookName = document.getElementById('recordBookSelect').value;
-        if(!bookName || books.length===0){ showMessage("请先创建卡片书","📘"); return; }
-        let date = document.getElementById('recordDate').value;
-        let hours = parseFloat(document.getElementById('recordHours').value)||0;
-        let words = parseInt(document.getElementById('recordWords').value)||0;
-        let income = parseFloat(document.getElementById('recordIncome').value)||0;
-        records.push({id:Date.now(), bookName, date, hours, words, income});
+        if (!bookName || books.length === 0) { showMessage("请先创建卡片书", "📘"); return; }
+        let date   = document.getElementById('recordDate').value;
+        let hours  = parseFloat(document.getElementById('recordHours').value) || 0;
+        let words  = parseInt(document.getElementById('recordWords').value) || 0;
+        let income = parseFloat(document.getElementById('recordIncome').value) || 0;
+        records.push({ id: Date.now(), bookName, date, hours, words, income });
         saveAll();
-        document.getElementById('recordHours').value='';
-        document.getElementById('recordWords').value='';
-        document.getElementById('recordIncome').value='';
+        document.getElementById('recordHours').value = '';
+        document.getElementById('recordWords').value = '';
+        document.getElementById('recordIncome').value = '';
         initApp();
-        showMessage(`🌊 为《${bookName}》注入${words}字灵感`, "📈");
+        showMessage(`为《${bookName}》记录 ${words.toLocaleString()} 字`, "📈");
     });
 
-    function renderDetailLog(){
+    function renderDetailLog() {
         let tbody = document.getElementById('detailLogTable');
-        let sorted = [...records].sort((a,b)=>new Date(b.date)-new Date(a.date));
-        if(sorted.length===0){ tbody.innerHTML='<tr><td colspan="8">尚未记录任何创作流水～</td></tr>'; return; }
-        tbody.innerHTML = sorted.map(r=>{
-            let hourly = r.hours>0 ? (r.income/r.hours).toFixed(2) : 0;
-            let perK = r.words>0 ? ((r.income/r.words)*1000).toFixed(2) : 0;
-            return `<tr><td>${r.date}</td><td>${r.bookName}</td><td>${r.words.toLocaleString()}</td><td>${r.hours}h</td><td>¥${r.income}</td><td>¥${hourly}</td><td>¥${perK}</td><td><button class="btn btn-sm" onclick="deleteRecord(${r.id})">🗑️</button></td></tr>`;
+        let sorted = [...records].sort((a, b) => new Date(b.date) - new Date(a.date));
+        if (sorted.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text-muted); padding:32px;">尚无任何记录</td></tr>';
+            return;
+        }
+        tbody.innerHTML = sorted.map(r => {
+            let hourly = r.hours > 0 ? (r.income / r.hours).toFixed(2) : '—';
+            let perK   = r.words  > 0 ? ((r.income / r.words) * 1000).toFixed(2) : '—';
+            return `<tr>
+                <td>${r.date}</td>
+                <td>${r.bookName}</td>
+                <td>${r.words.toLocaleString()}</td>
+                <td>${r.hours}h</td>
+                <td>¥${r.income}</td>
+                <td>${hourly !== '—' ? '¥' + hourly : '—'}</td>
+                <td>${perK   !== '—' ? '¥' + perK   : '—'}</td>
+                <td><button class="btn btn-sm btn-outline" onclick="deleteRecord(${r.id})">🗑️</button></td>
+            </tr>`;
         }).join('');
     }
 
-    function renderStatsPage(){
+    function renderStatsPage() {
         let dim = document.getElementById('timeDimension').value;
-        let now = new Date(); now.setHours(0,0,0,0);
-        let filtered = records.filter(r=>{
-            let d = new Date(r.date); d.setHours(0,0,0,0);
-            if(dim==='all') return true;
-            if(dim==='today') return d.getTime()===now.getTime();
-            if(dim==='week'){ let start = new Date(now); start.setDate(now.getDate()-now.getDay()+(now.getDay()===0? -6:1)); return d>=start && d<=now;}
-            if(dim==='month') return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth();
-            if(dim==='year') return d.getFullYear()===now.getFullYear();
+        let now = new Date(); now.setHours(0, 0, 0, 0);
+        let filtered = records.filter(r => {
+            let d = new Date(r.date); d.setHours(0, 0, 0, 0);
+            if (dim === 'all')   return true;
+            if (dim === 'today') return d.getTime() === now.getTime();
+            if (dim === 'week')  {
+                let start = new Date(now);
+                start.setDate(now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1));
+                return d >= start && d <= now;
+            }
+            if (dim === 'month') return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+            if (dim === 'year')  return d.getFullYear() === now.getFullYear();
             return false;
         });
-        let w=0,inc=0,h=0;
-        filtered.forEach(r=>{ w+=r.words; inc+=r.income; h+=r.hours;});
-        document.getElementById('summaryWords').innerText = w.toLocaleString()+'字';
-        document.getElementById('summaryIncome').innerText = '¥'+inc.toLocaleString();
-        document.getElementById('summaryHourly').innerText = '¥'+(h>0?(inc/h).toFixed(2):0)+'/h';
-        document.getElementById('summaryPerThousand').innerText = '¥'+(w>0?((inc/w)*1000).toFixed(2):0)+'/千字';
+        let w = 0, inc = 0, h = 0;
+        filtered.forEach(r => { w += r.words; inc += r.income; h += r.hours; });
+        document.getElementById('summaryWords').textContent       = w.toLocaleString() + '字';
+        document.getElementById('summaryIncome').textContent      = '¥' + inc.toLocaleString();
+        document.getElementById('summaryHourly').textContent      = '¥' + (h > 0 ? (inc / h).toFixed(2) : 0) + '/h';
+        document.getElementById('summaryPerThousand').textContent = '¥' + (w > 0 ? ((inc / w) * 1000).toFixed(2) : 0) + '/千字';
     }
 
-    function calculateCustomRange(){
-        let s = document.getElementById('customStart').value, e = document.getElementById('customEnd').value;
-        if(!s||!e){ showMessage("请选起止日期","📅"); return; }
-        let start = new Date(s); start.setHours(0,0,0,0);
-        let end = new Date(e); end.setHours(23,59,59,999);
-        let filtered = records.filter(r=>{ let d=new Date(r.date); return d>=start && d<=end;});
-        let w=0,inc=0,h=0;
-        filtered.forEach(r=>{ w+=r.words; inc+=r.income; h+=r.hours;});
-        document.getElementById('customWords').innerText = w.toLocaleString()+'字';
-        document.getElementById('customIncome').innerText = '¥'+inc.toLocaleString();
-        document.getElementById('customHourly').innerText = '¥'+(h>0?(inc/h).toFixed(2):0)+'/h';
+    function calculateCustomRange() {
+        let s = document.getElementById('customStart').value;
+        let e = document.getElementById('customEnd').value;
+        if (!s || !e) { showMessage("请选起止日期", "📅"); return; }
+        let start = new Date(s); start.setHours(0, 0, 0, 0);
+        let end   = new Date(e); end.setHours(23, 59, 59, 999);
+        let filtered = records.filter(r => { let d = new Date(r.date); return d >= start && d <= end; });
+        let w = 0, inc = 0, h = 0;
+        filtered.forEach(r => { w += r.words; inc += r.income; h += r.hours; });
+        document.getElementById('customWords').textContent  = w.toLocaleString() + '字';
+        document.getElementById('customIncome').textContent = '¥' + inc.toLocaleString();
+        document.getElementById('customHourly').textContent = '¥' + (h > 0 ? (inc / h).toFixed(2) : 0) + '/h';
     }
 
     let currentPickedBook = null;
-    function triggerGachaDraw(){
-        if(books.length===0){ showMessage("卡池虚空，请先创建书籍~","📚"); return;}
-        let rand = Math.floor(Math.random()*books.length);
-        currentPickedBook = books[rand];
+
+    function triggerGachaDraw() {
+        if (books.length === 0) { showMessage("卡池虚空，请先创建书籍", "📚"); return; }
+        currentPickedBook = books[Math.floor(Math.random() * books.length)];
         openModal('gachaModal');
         document.getElementById('flipperInner').classList.remove('flipped');
-        document.getElementById('gachaBtn').style.display='block';
-    }
-    function executeGachaRoll(){
-        if(!currentPickedBook) return;
-        let frontDiv = document.getElementById('gachaFront');
-        let quotes = ["📖 灵感喷泉，日更过万！","💎 今天适合写高光名场面","🎭 角色说它想加戏份","⚡ 码字速度提升200%"];
-        let randQ = quotes[Math.floor(Math.random()*quotes.length)];
-        frontDiv.innerHTML = `<div style="font-size:18px; font-weight:800; margin:10px 0;">《${currentPickedBook.name}》</div><div class="book-category">${currentPickedBook.category}</div><p style="font-size:13px; margin-top:12px;">✨ ${randQ} ✨</p><div style="margin-top:15px; font-size:10px;">点击卡片再次抽签</div>`;
-        document.getElementById('flipperInner').classList.add('flipped');
-        document.getElementById('gachaBtn').style.display='none';
-        showMessage(`灵光指引: 今日眷属之书《${currentPickedBook.name}》`, "🔮");
-    }
-    function flipGachaCard(){
-        let inner = document.getElementById('flipperInner');
-        if(!inner.classList.contains('flipped')) executeGachaRoll();
-        else { closeModal('gachaModal'); }
+        document.getElementById('gachaBtn').style.display = 'flex';
     }
 
-    function initApp(){
+    function executeGachaRoll() {
+        if (!currentPickedBook) return;
+        const quotes = [
+            "灵感喷涌，今日必有神来之笔",
+            "适合写高光名场面，不要犹豫",
+            "角色在低语，它想要更多戏份",
+            "码字速度将超越自己的历史最高",
+            "今日文思泉涌，万字不在话下"
+        ];
+        let q = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('gachaFront').innerHTML = `
+            <div style="font-size:1.1rem; font-weight:800; margin-bottom:8px; color:#fbbf24;">${currentPickedBook.name}</div>
+            <span style="font-size:0.68rem; background:rgba(124,58,237,0.15); border:1px solid rgba(124,58,237,0.25); color:#c4b5fd; padding:3px 12px; border-radius:30px;">${currentPickedBook.category}</span>
+            <p style="font-size:0.8rem; margin-top:18px; color:#dde3f0; line-height:1.7;">${q}</p>
+            <div style="margin-top:16px; font-size:0.68rem; color:#4a5568;">再次点击关闭</div>`;
+        document.getElementById('flipperInner').classList.add('flipped');
+        document.getElementById('gachaBtn').style.display = 'none';
+        showMessage(`今日眷属：《${currentPickedBook.name}》`, "🔮");
+    }
+
+    function flipGachaCard() {
+        let inner = document.getElementById('flipperInner');
+        if (!inner.classList.contains('flipped')) executeGachaRoll();
+        else closeModal('gachaModal');
+    }
+
+    function initApp() {
         syncUI();
         renderBookCards();
         updateBookSelect();
@@ -392,6 +1242,7 @@
         renderStatsPage();
         document.getElementById('recordDate').valueAsDate = new Date();
     }
+
     initApp();
 </script>
 </body>
